@@ -1,6 +1,6 @@
 {
   "name": "Domain Twitter Feed",
-  "version": "1.0",
+  "version": "1.1",
   "description": "tweets of the current website",
   "browser_action": {
     "default_icon": "favicon.ico",

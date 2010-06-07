@@ -33,6 +33,7 @@ function init(){
 }
 
 function loadTweets(query){
+	chrome.browserAction.setBadgeText({text: "..."})
 	var xhr = new XMLHttpRequest();
 	q = query;
 	xhr.open("GET", "http://search.twitter.com/search.json?rpp=100&q="+query, true);

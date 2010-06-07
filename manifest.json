@@ -1,0 +1,13 @@
+{
+  "name": "Domain Twitter Feed",
+  "version": "1.0",
+  "description": "tweets of the current website",
+  "browser_action": {
+    "default_icon": "favicon.ico",
+	"popup": "feed.html"
+  },
+  "background_page": "background.html",
+  "permissions": [
+	"tabs", "http://search.twitter.com/"
+  ]
+}

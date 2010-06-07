@@ -1,0 +1,20 @@
+<html>
+<head>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script>
+	function update(){
+		var bgPage = chrome.extension.getBackgroundPage();
+		var rows = [];
+		jQuery.each(bgPage.tweets, function(){
+			var tweet = this;
+			var row = "<div><img src='"+tweet.profile_image_url+"' /><strong><a target='_blank' href='http://www.twitter.com/"+tweet.from_user+"'>"+tweet.from_user+"</a></strong>: "+tweet.text+"</div>";
+			rows.push(row);
+		});
+		$("#tweets").html(rows.join(""))
+	}
+</script>
+</head>
+<body onload="update()">
+<div style="width:400px; height:400px" id="tweets">tweets...</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<html>
+
+<script>
+function init(){
+	chrome.browserAction.setBadgeBackgroundColor({color:[208, 0, 24, 255]});
+	chrome.browserAction.setBadgeText({text: "0"});
+
+	/*
+	chrome.browserAction.onClicked.addListener(function(tab) {
+		chrome.tabs.create({url: "http://twitter.com/search?q="+q}, function(){})
+	});
+	*/
+	
+	var cb = function(tabId, selectInfo) {
+		chrome.tabs.get(tabId, function(tab){
+			var query = tab.url;
+			query = query.replace("https://", "")
+			query = query.replace("http://", "")
+			var result = query.match(/([a-z0-9-]*)\.[a-z]{2,4}\//)
+			if(result && result.length > 1){
+				loadTweets(result[1])
+				chrome.browserAction.setTitle({title: "view tweets for "+result[1]})
+			} else {
+				chrome.browserAction.setBadgeText({text: "0"});
+				chrome.browserAction.setTitle({title: "no tweets available"})
+				tweets = []
+			}
+		});
+	}
+	
+	chrome.tabs.onSelectionChanged.addListener(cb);
+	chrome.tabs.onUpdated.addListener(cb);
+}
+
+function loadTweets(query){
+	var xhr = new XMLHttpRequest();
+	q = query;
+	xhr.open("GET", "http://search.twitter.com/search.json?rpp=100&q="+query, true);
+	xhr.onreadystatechange = function() {
+	  if (xhr.readyState == 4) {
+	    var resp = JSON.parse(xhr.responseText);
+		chrome.browserAction.setBadgeText({text: resp.results.length+""});
+		tweets = resp.results;
+	  }
+	}
+	xhr.send();
+}
+var tweets = [];
+var q = "";
+</script>
+<body onload="init()">
+</body>
+</html>
